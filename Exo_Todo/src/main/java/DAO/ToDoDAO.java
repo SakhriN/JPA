@@ -14,5 +14,7 @@ public interface ToDoDAO {
 
     public List<ToDo> Obtention();
 
-    public ToDo MiseAJour(ToDo toDo);
+    public ToDo MiseAJourNom(int id, String name);
+
+    public ToDo MiseAJourEtat(int id);
 }

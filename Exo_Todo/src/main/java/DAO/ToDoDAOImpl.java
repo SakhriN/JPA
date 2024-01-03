@@ -48,12 +48,28 @@ public class ToDoDAOImpl implements ToDoDAO {
         ToDo tache = null;
         tache = joe.find(ToDo.class,id);
         joe.getTransaction().commit();
+        joe.close();
         return tache;
     }
 
-    public ToDo MiseAJour(ToDo toDo) {
+    public ToDo MiseAJourNom(int id, String name) {
         EntityManager joe = test.createEntityManager();
-        return toDo;
+        ToDo tache = ObtentionUnique(id);
+        joe.getTransaction().begin();
+        tache.setNom(name);
+        joe.merge(tache);
+        joe.getTransaction().commit();
+        return tache;
+    }
+
+    public ToDo MiseAJourEtat(int id) {
+        EntityManager joe = test.createEntityManager();
+        ToDo tache = ObtentionUnique(id);
+        joe.getTransaction().begin();
+        tache.setEtat(!tache.isEtat());
+        joe.merge(tache);
+        joe.getTransaction().commit();
+        return tache;
     }
 
 }
