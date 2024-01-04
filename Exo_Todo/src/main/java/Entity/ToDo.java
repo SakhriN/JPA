@@ -1,17 +1,20 @@
 package Entity;
 
 import javax.persistence.*;
+import Entity.ToDoInfo;
 @Entity
 public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    int td_id;
 
     @Column
     String nom;
 
     boolean etat;
 
+    @OneToOne(mappedBy = "toDo", cascade = CascadeType.ALL, orphanRemoval = true)
+    ToDoInfo toDoInfo;
     public ToDo() {
     }
 
@@ -23,8 +26,8 @@ public class ToDo {
         this.etat = etat;
     }
 
-    public ToDo(int id, String nom, boolean etat) {
-        this.id = id;
+    public ToDo(int td_id, String nom, boolean etat) {
+        this.td_id = td_id;
         this.nom = nom;
         this.etat = etat;
     }
@@ -46,19 +49,28 @@ public class ToDo {
     }
 
     public int getId() {
-        return id;
+        return td_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int td_id) {
+        this.td_id = td_id;
+    }
+
+    public ToDoInfo getToDoInfo() {
+        return toDoInfo;
+    }
+
+    public void setToDoInfo(ToDoInfo toDoInfo) {
+        this.toDoInfo = toDoInfo;
     }
 
     @Override
     public String toString() {
         return "ToDo : " +
-                "id=" + id +
+                "id=" + td_id +
                 ", nom= " + nom +
                 ", etat= " + etat +
+                ", toDoInfo= " + toDoInfo +
                 '.';
     }
 }
