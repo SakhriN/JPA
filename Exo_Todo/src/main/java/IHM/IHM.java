@@ -38,30 +38,7 @@ public class IHM {
             scan.nextLine();
             switch (choice) {
                 case 1 -> {
-                    int tache_id = tache.getId();
-
-                    System.out.println("Ecrivez la date en YYYY-MM-DD :");
-                    String datetest = scan.nextLine();
-                    try {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        date = dateFormat.parse(datetest);
-                        System.out.println("La chaîne est une date valide : " + date);
-                    } catch (ParseException e) {
-                        System.out.println("La chaîne n'est pas une date valide.");
-                        date = new Date();
-                    }
-
-                    System.out.println("Ecrivez la description :");
-                    String desc = scan.nextLine();
-
-                    System.out.println("Choisissez la priorité :");
-                    int prio = scan.nextInt();
-                    scan.nextLine();
-                    if (prio < 0) {
-                        prio = 0;
-                    }
-                    ToDoInfo infoTache = new ToDoInfo(desc,date,prio,tache);
-                    toDoInfoDAO.Ajout(infoTache);
+                    AjoutTache(tache);
                 }
                 case 2 -> {
                     System.out.println("Bah bravo fdp.");
@@ -92,7 +69,8 @@ public class IHM {
 //    Modifier une tache :
 
     public void Modification() {
-        if (ObtentionUnique() != null) {
+        ToDo tache = ObtentionUnique();
+        if (tache != null) {
             menutache();
             tache_mod = scan.nextInt();
             scan.nextLine();
@@ -110,6 +88,49 @@ public class IHM {
                 toDoDAO.MiseAJourNom(tache_num, nouveauNom);
             } else {
                 toDoDAO.MiseAJourEtat(tache_num);
+            }
+            if (tache.getToDoInfo() != null) {
+                System.out.println("Voulez vous modifier la description ?");
+                System.out.println("1 - OUI");
+                System.out.println("2 - NON");
+                do {
+                    choice = scan.nextInt();
+                    scan.nextLine();
+                    switch (choice) {
+                        case 1 -> {
+                            System.out.println("Ecrivez la date en YYYY-MM-DD :");
+                            String datetest = scan.nextLine();
+                            try {
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                date = dateFormat.parse(datetest);
+                                System.out.println("La chaîne est une date valide : " + date);
+                            } catch (ParseException e) {
+                                System.out.println("La chaîne n'est pas une date valide.");
+                                date = new Date();
+                            }
+
+                            System.out.println("Ecrivez la description :");
+                            String desc = scan.nextLine();
+
+                            System.out.println("Choisissez la priorité :");
+                            int prio = scan.nextInt();
+                            scan.nextLine();
+                            if (prio < 0) {
+                                prio = 0;
+                            }
+                            toDoInfoDAO.MiseAJourDescription(tache_num, date, desc, prio);
+                        }
+                        case 2 -> {
+                            System.out.println("D'accord, retour au menu principal");
+                        }
+                        default -> {
+                            System.out.println("incorrect");
+                        }
+                    }
+                } while (choice != 1 && choice != 2);
+            } else {
+                System.out.println("Vous n'avez pas de description, création d'une description.");
+                AjoutTache(tache);
             }
         } else {
             System.out.println("Incorrect, retour au menu principal.");
@@ -146,6 +167,32 @@ public class IHM {
     public void Fermeture() {
         System.out.println("Au revoir.");
         toDoDAO.Fermeture();
+    }
+
+    public void AjoutTache(ToDo tache) {
+        int tache_id = tache.getId();
+        System.out.println("Ecrivez la date en YYYY-MM-DD :");
+        String datetest = scan.nextLine();
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            date = dateFormat.parse(datetest);
+            System.out.println("La chaîne est une date valide : " + date);
+        } catch (ParseException e) {
+            System.out.println("La chaîne n'est pas une date valide.");
+            date = new Date();
+        }
+
+        System.out.println("Ecrivez la description :");
+        String desc = scan.nextLine();
+
+        System.out.println("Choisissez la priorité :");
+        int prio = scan.nextInt();
+        scan.nextLine();
+        if (prio < 0) {
+            prio = 0;
+        }
+        ToDoInfo infoTache = new ToDoInfo(desc, date, prio, tache);
+        toDoInfoDAO.Ajout(infoTache);
     }
 
 }

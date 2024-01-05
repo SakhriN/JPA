@@ -6,7 +6,7 @@ import Entity.ToDoInfo;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.List;
+import java.util.Date;
 
 public class ToDoInfoDAOImpl implements ToDoInfoDAO {
 
@@ -37,11 +37,26 @@ public class ToDoInfoDAOImpl implements ToDoInfoDAO {
         joe.close();
         return tache;
     }
-    public ToDoInfo MiseAJourDescription(int id, String description) {
+    public ToDoInfo MiseAJourDescription(int id, Date date, String description, int priority) {
         EntityManager joe = test.createEntityManager();
         ToDoInfo tache = ObtentionUnique(id);
         joe.getTransaction().begin();
+        tache.setDate(date);
         tache.setDescription(description);
+        tache.setPriority(priority);
+        joe.merge(tache);
+        joe.getTransaction().commit();
+        joe.close();
+        return tache;
+    }
+    public ToDoInfo AjoutDescription(int id, Date date, String description, int priority, ToDo toDo) {
+        EntityManager joe = test.createEntityManager();
+        ToDoInfo tache = ObtentionUnique(id);
+        joe.getTransaction().begin();
+        tache.setDate(date);
+        tache.setDescription(description);
+        tache.setPriority(priority);
+        tache.setToDo(toDo);
         joe.merge(tache);
         joe.getTransaction().commit();
         joe.close();

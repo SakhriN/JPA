@@ -3,7 +3,7 @@ package DAO;
 import Entity.ToDo;
 import Entity.ToDoInfo;
 
-import java.util.List;
+import java.util.Date;
 
 public interface ToDoInfoDAO {
 
@@ -14,5 +14,7 @@ public interface ToDoInfoDAO {
     public ToDoInfo ObtentionUnique(int id);
 
 
-    public ToDoInfo MiseAJourDescription(int id, String description);
+    public ToDoInfo MiseAJourDescription(int id, Date date, String description, int priority);
+
+    public ToDoInfo AjoutDescription(int id, Date date, String description, int priority, ToDo toDo);
 }

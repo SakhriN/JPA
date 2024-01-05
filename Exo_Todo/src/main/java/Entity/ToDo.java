@@ -15,6 +15,11 @@ public class ToDo {
 
     @OneToOne(mappedBy = "toDo", cascade = CascadeType.ALL, orphanRemoval = true)
     ToDoInfo toDoInfo;
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
     public ToDo() {
     }
 

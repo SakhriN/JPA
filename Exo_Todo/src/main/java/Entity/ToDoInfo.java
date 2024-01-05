@@ -67,6 +67,14 @@ public class ToDoInfo {
         this.priority = priority;
     }
 
+    public ToDo getToDo() {
+        return toDo;
+    }
+
+    public void setToDo(ToDo toDo) {
+        this.toDo = toDo;
+    }
+
     @Override
     public String toString() {
         return "ToDoInfo : " +
