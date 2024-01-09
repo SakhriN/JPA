@@ -41,9 +41,9 @@ public class Test {
             deception.add(produit5);
 
 //            System.out.println(deception);
-//            for (Produit produit : deception) {
-//                session.save(produit);
-//            }
+            for (Produit produit : deception) {
+                session.save(produit);
+            }
 //
 //            Query<Produit> demande1 = session.createQuery("FROM Produit WHERE id = 2");
 //            List<Produit> bloup = demande1.list();
@@ -63,9 +63,9 @@ public class Test {
 //            EX2:
 
 
-//            Query<Produit> demande2 = session.createQuery("FROM Produit");
-//            List<Produit> bloupp = demande2.list();
-//            System.out.println(bloupp);
+            Query<Produit> demande2 = session.createQuery("FROM Produit");
+            List<Produit> bloupp = demande2.list();
+            System.out.println(bloupp);
 
 //            Query<Produit> demande3 = session.createQuery("FROM Produit WHERE prix > :prix");
 //            demande3.setParameter("prix", 100D);
