@@ -12,13 +12,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.Scanner;
 
 public class Test {
 
     public static void main(String[] args) {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-
+        Scanner scoun = new Scanner(System.in);
         Session session = sessionFactory.openSession();
         Transaction tx = null;
 
@@ -41,9 +42,9 @@ public class Test {
             deception.add(produit5);
 
 //            System.out.println(deception);
-            for (Produit produit : deception) {
-                session.save(produit);
-            }
+//            for (Produit produit : deception) {
+//                session.save(produit);
+//            }
 //
 //            Query<Produit> demande1 = session.createQuery("FROM Produit WHERE id = 2");
 //            List<Produit> bloup = demande1.list();
@@ -63,9 +64,9 @@ public class Test {
 //            EX2:
 
 
-            Query<Produit> demande2 = session.createQuery("FROM Produit");
-            List<Produit> bloupp = demande2.list();
-            System.out.println(bloupp);
+//            Query<Produit> demande2 = session.createQuery("FROM Produit");
+//            List<Produit> bloupp = demande2.list();
+//            System.out.println(bloupp);
 
 //            Query<Produit> demande3 = session.createQuery("FROM Produit WHERE prix > :prix");
 //            demande3.setParameter("prix", 100D);
@@ -73,16 +74,37 @@ public class Test {
 //            for (Produit produit : blouppp) {
 //                System.out.println(produit);
 //            }
+//            Query<Produit> demande4 = session.createQuery("FROM Produit WHERE dateAchat > :dateDebut AND dateAchat < :dateFin ");
+//            demande4.setParameter("dateDebut", Date.valueOf("2024-01-01"));
+//            demande4.setParameter("dateFin",Date.valueOf("2024-12-12"));
+//            List<Produit> demence = demande4.list();
+//            for (Produit produit : demence) {
+//                System.out.println(produit);
+//            }
 
 
-            Query<Produit> demande4 = session.createQuery("FROM Produit WHERE dateAchat > :dateDebut AND dateAchat < :dateFin ");
-            demande4.setParameter("dateDebut", Date.valueOf("2024-01-01"));
-            demande4.setParameter("dateFin",Date.valueOf("2024-12-12"));
-            List<Produit> demence = demande4.list();
-            for (Produit produit : demence) {
-                System.out.println(produit);
-            }
+//            Ex3 :
 
+//            int stock = scoun.nextInt();
+//            scoun.nextLine();
+//            Query<Produit> query = session.createQuery("FROM Produit WHERE stock < :stockMax", Produit.class);
+//            query.setParameter("stockMax", stock);
+//            List<Produit> produits = query.getResultList();
+//            System.out.println("Liste des produits avec un stock inférieur à " + stock + ":");
+//            for (Produit produit : produits) {
+//                System.out.println("Numéro : " + produit.getId() + ", Référence : " + produit.getReference());
+//            }
+//            Ex4:
+            System.out.println("tappe une marque");
+            String marqueChoisie = scoun.nextLine();
+            Query<Produit> query = session.createQuery("FROM Produit WHERE marque = :marque", Produit.class);
+            query.setParameter("marque", marqueChoisie);
+            List<Produit> produits = query.getResultList();
+            // Calculer la valeur totale du stock
+            int valeurStock = produits.stream().mapToInt(Produit::getStock).sum();
+            // Afficher la valeur du stock
+            System.out.println("La valeur totale du stock pour la marque " + marqueChoisie + " est : " + valeurStock);
+            tx.commit();
 
         } catch (Exception ex) {
             if (tx != null) {

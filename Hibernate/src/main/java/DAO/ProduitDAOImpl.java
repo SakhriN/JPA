@@ -8,13 +8,13 @@ import org.hibernate.Query;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+import java.util.Date;
 import java.util.List;
 
 public class ProduitDAOImpl implements ProduitDAO {
     StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
     SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-
-
     Transaction tx = null;
 
     public void Create(Produit produit) {
@@ -30,7 +30,7 @@ public class ProduitDAOImpl implements ProduitDAO {
     public Produit ReadOne(int id) {
         Session session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        Produit produit = session.get(Produit.class,id);
+        Produit produit = session.get(Produit.class, id);
         tx.commit();
         session.close();
         return produit;
@@ -46,13 +46,20 @@ public class ProduitDAOImpl implements ProduitDAO {
         return produits;
     }
 
-    public void Update(int id) {
+    public void Update(Produit produit, String marque, String reference, Date date
+            , double prix, int stock) {
+        Session session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+
+        session.update(produit);
+        tx.commit();
+        session.close();
     }
 
     public void Delete(int id) {
         Session session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        Produit produit = session.get(Produit.class,id);
+        Produit produit = session.get(Produit.class, id);
         session.delete(produit);
         tx.commit();
         session.close();

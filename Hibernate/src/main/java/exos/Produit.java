@@ -30,6 +30,13 @@ public class Produit {
         this.stock = stock;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getMarque() {
         return marque;
