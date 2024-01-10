@@ -23,6 +23,8 @@ public class Test {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
 
+
+
         try {
             tx = session.getTransaction();
             tx.begin();
@@ -87,9 +89,9 @@ public class Test {
 
 //            int stock = scoun.nextInt();
 //            scoun.nextLine();
-//            Query<Produit> query = session.createQuery("FROM Produit WHERE stock < :stockMax", Produit.class);
-//            query.setParameter("stockMax", stock);
-//            List<Produit> produits = query.getResultList();
+//            Query<Produit> demande5 = session.createQuery("FROM Produit WHERE stock < :stockMax", Produit.class);
+//            demande5.setParameter("stockMax", stock);
+//            List<Produit> produits = demande5.getResultList();
 //            System.out.println("Liste des produits avec un stock inférieur à " + stock + ":");
 //            for (Produit produit : produits) {
 //                System.out.println("Numéro : " + produit.getId() + ", Référence : " + produit.getReference());
@@ -97,13 +99,38 @@ public class Test {
 //            Ex4:
             System.out.println("tappe une marque");
             String marqueChoisie = scoun.nextLine();
-            Query<Produit> query = session.createQuery("FROM Produit WHERE marque = :marque", Produit.class);
-            query.setParameter("marque", marqueChoisie);
-            List<Produit> produits = query.getResultList();
+            Query<Produit> demande6 = session.createQuery("FROM Produit WHERE marque = :marque", Produit.class);
+            demande6.setParameter("marque", marqueChoisie);
+            List<Produit> produits = demande6.getResultList();
             // Calculer la valeur totale du stock
             int valeurStock = produits.stream().mapToInt(Produit::getStock).sum();
             // Afficher la valeur du stock
             System.out.println("La valeur totale du stock pour la marque " + marqueChoisie + " est : " + valeurStock);
+            tx.commit();
+
+
+            Query<Produit> demande7 = session.createQuery("FROM Produit", Produit.class);
+            List<Produit> bloups = demande7.getResultList();
+            double prixMoyen = bloups.stream().mapToDouble(Produit::getPrix).average().orElse(0.0);
+            System.out.println("Le prix moyen des produits est : " + prixMoyen);
+
+
+            Query<Produit> demande8 = session.createQuery("FROM Produit WHERE marque = :marque", Produit.class);
+            demande8.setParameter("marque", marqueChoisie);
+            List<Produit> bloups2 = demande8.getResultList();
+            System.out.println("Liste des produits de la marque " + marqueChoisie + ":");
+            for (Produit produit : bloups2) {
+                System.out.println(produit);
+            }
+            tx.commit();
+
+
+            Query<Produit> demande9 = session.createQuery("FROM Produit WHERE marque = :marque", Produit.class);
+            demande9.setParameter("marque", marqueChoisie);
+            List<Produit> bloups3 = demande9.getResultList();
+            for (Produit produit : bloups3) {
+                session.delete(produit);
+            }
             tx.commit();
 
         } catch (Exception ex) {
