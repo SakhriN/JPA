@@ -85,7 +85,7 @@ public class Test {
 
 
 //            Ex3 :
-
+//            System.out.println("Tappez un chiffre correspondant a un stock que vous ne voulez pas depasser : ");
 //            int stock = scoun.nextInt();
 //            scoun.nextLine();
 //            Query<Produit> demande5 = session.createQuery("FROM Produit WHERE stock < :stockMax", Produit.class);
